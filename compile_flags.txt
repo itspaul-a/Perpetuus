@@ -1,0 +1,7 @@
+-std=c++17
+-I/opt/homebrew/include
+-L/opt/homebrew/lib
+-lsfml-graphics
+-lsfml-window
+-lsfml-system
+

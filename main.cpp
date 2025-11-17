@@ -150,12 +150,15 @@ public:
 
 class Game 
 {
+
     std::vector<Projectile> projectiles;
     std::vector<Enemy> enemies;
+
     float fireCooldown = 0.3f;
     float fireTimer = 0.f;
     float enemySpawnCooldown = 1.0f;
     float enemySpawnTimer = 0.f;
+
     int maxEnemies = 200;
     int playerLives = 3;
 
@@ -170,7 +173,7 @@ public:
 
         // Font and texts
         sf::Font font;
-        if (!font.openFromFile("myFont2.ttf")) 
+        if (!font.openFromFile("assets/myFont2.ttf")) 
 		{
 			std::cout << "Error loading font\n";
 		}
@@ -193,7 +196,7 @@ public:
 
         // Background
         sf::Texture background;
-        if (!background.loadFromFile("grass.png")) std::cout << "Error loading background\n";
+        if (!background.loadFromFile("assets/map.png")) std::cout << "Error loading background\n";
         sf::Sprite sprite(background);
         sf::Vector2u textureSize = background.getSize();
         sprite.setScale(sf::Vector2f(worldSize.x / float(textureSize.x), worldSize.y / float(textureSize.y)));

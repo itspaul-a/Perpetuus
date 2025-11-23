@@ -22,11 +22,12 @@ void Player::movement(sf::Texture& texture, sf::Texture& texture2, sf::Sprite& p
 
 	int x = 0;
 	int y = 0;
-	int w = 192;
-	int h = 197;
+	int w = 2000/8;
+	int h = 250;
 	
 	playerSprite.setOrigin({w/ 2.f, h / 2.f});
 	playerSprite.setTextureRect(sf::IntRect({x,y},{w,h}));
+	playerSprite.setScale({1.5, 1.5});
 
     _direction = {0,0};
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) _direction.y -= 1;
@@ -34,7 +35,7 @@ void Player::movement(sf::Texture& texture, sf::Texture& texture2, sf::Sprite& p
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) 
 	{
 		x = (int)getPosition().x / 20 % 4;
-		x *= 192;
+		x *= 250;
 		playerSprite.setTexture(texture2);
 		playerSprite.setTextureRect(sf::IntRect({x,y},{w,h}));
 
@@ -44,7 +45,7 @@ void Player::movement(sf::Texture& texture, sf::Texture& texture2, sf::Sprite& p
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) 
 	{
 		x = (int)getPosition().x / 20 % 4;
-		x *= 192;
+		x *= 250;
 		playerSprite.setTexture(texture);
 		playerSprite.setTextureRect(sf::IntRect({x,y},{w,h}));
 

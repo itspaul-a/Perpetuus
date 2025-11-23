@@ -5,7 +5,9 @@ int main()
 	sf::RenderWindow window(sf::VideoMode({800, 600}), "Perpetuus");
 	window.setFramerateLimit(60);
 
-	Game g;
+	Game game;
+	Fire fire;
+	Menu menu;
 	while (window.isOpen() && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) 
 		{
             while (auto event = window.pollEvent())
@@ -13,9 +15,9 @@ int main()
                 if (event->is<sf::Event::Closed>()) window.close();
 			}
 
-			g.fire();
-			g.menu();
-			g.run();
+			fire.fire();
+			menu.menu();
+			game.run();
 			window.display();
 		}
 }

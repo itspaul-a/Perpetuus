@@ -12,6 +12,7 @@ public:
 		: sprite(tex)
     {
         sprite.setPosition(pos);
+		sprite.setScale({1.5, 1.5});
     }
 
     void update(float dt, const sf::Vector2f& playerPos);

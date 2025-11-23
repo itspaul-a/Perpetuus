@@ -3,11 +3,12 @@
 class Projectile : public sf::CircleShape 
 {
     sf::Vector2f _direction;
-    float _speed;
 
 public:
+
+    float speed = 300;
     Projectile(const sf::Vector2f& pos, sf::Vector2f direction)
-        : _direction(direction), _speed(600.f) 
+        : _direction(direction) 
     {
         float len = std::sqrt(direction.x*direction.x + direction.y*direction.y);
         if (len != 0) 
@@ -15,15 +16,15 @@ public:
 			_direction /= len;
 		}
 
-        setRadius(3);
-        setFillColor(sf::Color::Yellow);
+        setRadius(10);
+        setFillColor(sf::Color::Magenta);
         setOrigin({getRadius(), getRadius()});
         setPosition(pos);
     }
 
     void update(float dt) 
 	{ 
-		move(_direction * _speed * dt); 
+		move(_direction * speed * dt); 
 	}
 };
 

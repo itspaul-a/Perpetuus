@@ -1,7 +1,15 @@
+/*
+
+Thank you to Fabien Sanglard and praetor64
+
+- fabiensanglard.net/doom_fire_psx/index.html
+- www.youtube.com/watch?v=B7iacc3HiVE
+
+*/
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
-
 
 static constexpr unsigned int fireWidth = 320;
 static constexpr unsigned int fireHeight = 168;
@@ -27,6 +35,7 @@ static constexpr int paletteSize = sizeof(firePallete) / sizeof(firePallete[0]);
 	
 class Fire 
 {
+
 public:
 	
 	void fire()
@@ -58,7 +67,7 @@ public:
 		fireText.setPosition({window.getSize().x/2.f, window.getSize().y/2.f});
 	
 	
-		    // Fire intensity buffer
+		// Fire intensity
 	    std::vector<int> firePixels(fireWidth * fireHeight, 0);
 	
 	    // Bottom row = full fire

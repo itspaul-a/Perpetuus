@@ -32,20 +32,19 @@ void Menu::menu()
 
     sf::Text title(menuFont,"PERPETUUS", 80);
     title.setFillColor(sf::Color::Black);
-    sf::FloatRect tb = title.getLocalBounds();
-    title.setOrigin({tb.position.x + tb.size.x/2.f, tb.position.y + tb.size.y/2.f});
+    sf::FloatRect titleBounds = title.getLocalBounds();
+    title.setOrigin({titleBounds.position.x + titleBounds.size.x/2.f, titleBounds.position.y + titleBounds.size.y/2.f});
     title.setPosition({400, 150});
 
-    // Start Button
     sf::RectangleShape startBtn({300, 80});
     startBtn.setFillColor(sf::Color(102, 0, 0));
     startBtn.setOrigin({150, 40});
     startBtn.setPosition({400, 350});
 
-    sf::Text startTxt(menuFont,"START", 50);
-    sf::FloatRect sb = startTxt.getLocalBounds();
-    startTxt.setOrigin({sb.position.x + sb.size.x/2.f, sb.position.y + sb.size.y/2.f});
-    startTxt.setPosition({400, 350});
+    sf::Text startText(menuFont,"START", 50);
+    sf::FloatRect sb = startText.getLocalBounds();
+    startText.setOrigin({sb.position.x + sb.size.x/2.f, sb.position.y + sb.size.y/2.f});
+    startText.setPosition({400, 350});
 
     while (window.isOpen()&& !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
     {
@@ -54,7 +53,6 @@ void Menu::menu()
             if (event->is<sf::Event::Closed>())
                 window.close();
 
-            // Check button click
             if (event->is<sf::Event::MouseButtonPressed>())
             {
                 auto mouse = sf::Mouse::getPosition(window);
@@ -65,8 +63,8 @@ void Menu::menu()
                 if (startBtn.getGlobalBounds().contains(mousePos))
                 {
 					music.stop();
-                    window.close(); // close menu window
-                    game.run();          // START THE GAME
+					window.close();
+                    game.run();
                     return;
                 }
             }
@@ -76,7 +74,7 @@ void Menu::menu()
 		window.draw(bgSprite);
         window.draw(title);
         window.draw(startBtn);
-        window.draw(startTxt);
+        window.draw(startText);
         window.display();
     }
 }

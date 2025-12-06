@@ -16,7 +16,7 @@
 class Game 
 {
 
-    std::vector<Projectile> projectiles;
+	std::vector<Projectile> projectiles;
     std::vector<Enemy> enemies;
 
     float fireCooldown = 0.8f;
@@ -27,7 +27,7 @@ class Game
     int maxEnemies = 200;
 
 public:
-	void run() 
+	void run()
 	{
         sf::RenderWindow window(sf::VideoMode({1920,1080}), "game");
         sf::Vector2f worldSize(2000,2000);
@@ -101,11 +101,12 @@ public:
         sf::Vector2u textureSize = background.getSize();
         sprite.setScale(sf::Vector2f(worldSize.x / float(textureSize.x), worldSize.y / float(textureSize.y)));
 
-        // Initial enemies
+         //Initial enemies
         for (int i = 0; i < 20; i++)
 		{
             enemies.emplace_back(enemyTexture,sf::Vector2f(rand()%int(worldSize.x), rand()%int(worldSize.y)));
 		}
+
 
         bool gameOver = false;
         float timeSurvived = 0.f;
@@ -128,7 +129,7 @@ public:
 
 		//level bar
 		LevelBar levelBar(window.getSize().x,20);
-
+		
         while (window.isOpen() && !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) 
 		{
             float dt = clock.restart().asSeconds();
@@ -197,7 +198,7 @@ public:
 
                 }
 
-              		// Projectile vs Enemy collisions
+              	// Projectile vs Enemy collisions
 				for (auto projectileIterator = projectiles.begin(); projectileIterator != projectiles.end(); )
 				{
 				    bool hit = false;
@@ -241,7 +242,7 @@ public:
 					}
 				}
 
-				// Spawn enemies
+				 // Spawn enemies
                 enemySpawnTimer += dt;
                 if (enemySpawnTimer >= enemySpawnCooldown && enemies.size() < maxEnemies) 
 				{
@@ -300,9 +301,7 @@ public:
 
             view.setCenter(playerPos);
             window.setView(view);
-
-
-			//playerSprite.setColor(sf::Color(128,128,128));
+		
             window.clear();
             window.draw(sprite);
 			window.draw(playerSprite);
@@ -314,10 +313,20 @@ public:
 			//window.draw(player);
 			//window.draw(sword);
 			
-			if(enemiesHit >= 100)
+			if(enemiesHit >= 20)
 			{
 				window.draw(sword);
+				
 			}
+			if(enemiesHit == 25)
+			{
+				for(int i = 0; i < 100; i++)
+				{
+					enemies.emplace_back(enemyTexture2,sf::Vector2f(rand()%200, rand()%200));
+
+				}
+			}
+
 
             for (auto& p : projectiles) 
 			{

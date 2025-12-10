@@ -30,8 +30,12 @@ void Player::movement(sf::Texture& texture, sf::Texture& texture2, sf::Sprite& p
 	playerSprite.setScale({1.5, 1.5});
 
     _direction = {0,0};
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) _direction.y -= 1;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) _direction.y += 1;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) 
+		_direction.y -= 1;
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) 
+		_direction.y += 1;
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) 
 	{
 		x = (int)getPosition().x / 20 % 4;
@@ -44,8 +48,10 @@ void Player::movement(sf::Texture& texture, sf::Texture& texture2, sf::Sprite& p
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) 
 	{
+
 		x = (int)getPosition().x / 20 % 4;
 		x *= 250;
+
 		playerSprite.setTexture(texture);
 		playerSprite.setTextureRect(sf::IntRect({x,y},{w,h}));
 
@@ -54,6 +60,7 @@ void Player::movement(sf::Texture& texture, sf::Texture& texture2, sf::Sprite& p
 
     if (_direction.x != 0 || _direction.y != 0) 
 	{
+
         float len = std::sqrt(_direction.x*_direction.x + _direction.y*_direction.y);
         _direction /= len;
         _lastDirection = _direction;
@@ -62,6 +69,7 @@ void Player::movement(sf::Texture& texture, sf::Texture& texture2, sf::Sprite& p
 
 void Player::update(float dt, float worldHeight, float worldWidth) 
 {
+
     auto pos = getPosition();
     pos += _direction * _speed * dt;
 

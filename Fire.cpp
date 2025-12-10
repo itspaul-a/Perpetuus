@@ -1,0 +1,126 @@
+/*
+
+Thank you to Fabien Sanglard and praetor64
+
+- fabiensanglard.net/doom_fire_psx/index.html
+- www.youtube.com/watch?v=B7iacc3HiVE
+
+*/
+
+#include "Fire.hpp"
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+
+const sf::Color firePallete[] =
+{
+    sf::Color(0, 0, 0), sf::Color(7, 7, 7), sf::Color(31, 7, 7),
+    sf::Color(47, 15, 7), sf::Color(71, 15, 7), sf::Color(87, 23, 7),
+    sf::Color(103, 31, 7), sf::Color(119, 31, 7), sf::Color(143, 39, 7),
+    sf::Color(159, 47, 7), sf::Color(175, 63, 7), sf::Color(191, 71, 7),
+    sf::Color(199, 71, 7), sf::Color(223, 79, 7), sf::Color(223, 87, 7),
+    sf::Color(223, 87, 7), sf::Color(215, 95, 7), sf::Color(215, 95, 7),
+    sf::Color(215, 103, 15), sf::Color(207, 111, 15), sf::Color(207, 119, 15),
+    sf::Color(207, 127, 15), sf::Color(207, 135, 23), sf::Color(199, 135, 23),
+    sf::Color(199, 143, 23), sf::Color(199, 151, 31), sf::Color(191, 159, 31),
+    sf::Color(191, 159, 31), sf::Color(191, 167, 39), sf::Color(191, 167, 39),
+    sf::Color(191, 175, 47), sf::Color(183, 175, 47), sf::Color(183, 183, 47),
+    sf::Color(183, 183, 55), sf::Color(207, 207, 111), sf::Color(223, 223, 159),
+    sf::Color(239, 239, 199), sf::Color(255, 255, 255)
+};
+
+const int paletteSize = sizeof(firePallete) / sizeof(firePallete[0]);
+
+void Fire::fire()
+{
+    std::srand(static_cast<unsigned>(std::time(nullptr)));
+
+    sf::Music music;
+    if(!music.openFromFile("assets/fire2.mp3"))
+        std::cout << "error loading fire.mp3";
+
+    sf::RenderWindow window(sf::VideoMode({800, 600}), "Fire");
+    window.setFramerateLimit(60);
+
+    sf::Clock clock;
+    float fireDuration = 5.0f;
+
+    sf::Font font;
+    if(!font.openFromFile("assets/myFont2.ttf"))
+        std::cout << "error loading font";
+
+    sf::Text fireText(font, "Paul Software", 100);
+    fireText.setFillColor(sf::Color::Black);
+    
+    sf::FloatRect bounds = fireText.getLocalBounds();
+    fireText.setOrigin({
+        bounds.position.x + bounds.size.x / 2.f,
+        bounds.position.y + bounds.size.y / 2.f
+    });
+    fireText.setPosition({
+        window.getSize().x / 2.f,
+        window.getSize().y / 2.f
+    });
+
+    std::vector<int> firePixels(fireWidth * fireHeight, 0);
+
+    for (unsigned int x = 0; x < fireWidth; ++x)
+        firePixels[(fireHeight - 1) * fireWidth + x] = paletteSize - 1;
+
+    sf::Image fireImage({fireWidth, fireHeight}, sf::Color::Black);
+    sf::Texture fireTexture(sf::Vector2u{fireWidth, fireHeight});
+    sf::Sprite fireSprite(fireTexture);
+    fireSprite.setScale({
+        float(window.getSize().x) / fireWidth,
+        float(window.getSize().y) / fireHeight
+    });
+
+    music.play();
+
+    while(window.isOpen() &&
+          clock.getElapsedTime().asSeconds() < fireDuration &&
+          !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
+    {
+        while (auto event = window.pollEvent())
+            if (event->is<sf::Event::Closed>())
+                window.close();
+
+        for (unsigned int x = 0; x < fireWidth; ++x)
+        {
+            for (unsigned int y = 1; y < fireHeight; ++y)
+            {
+                int src = y * fireWidth + x;
+                int decay = std::rand() % 3;
+                int dst = src - decay + 1;
+
+                if (dst >= fireWidth)
+                    dst -= fireWidth;
+
+                int newY = y - 1;
+                int newIndex = newY * fireWidth + (dst % fireWidth);
+                int newIntensity = firePixels[src] - (decay & 1);
+
+                if (newIntensity < 0) newIntensity = 0;
+
+                firePixels[newIndex] = newIntensity;
+            }
+        }
+
+        for (unsigned int y = 0; y < fireHeight; ++y)
+        {
+            for (unsigned int x = 0; x < fireWidth; ++x)
+            {
+                int colorIndex = firePixels[y * fireWidth + x];
+                fireImage.setPixel({x, y}, firePallete[colorIndex]);
+            }
+        }
+
+        fireTexture.update(fireImage);
+
+        window.clear();
+        window.draw(fireSprite);
+        window.draw(fireText);
+        window.display();
+    }
+}
+

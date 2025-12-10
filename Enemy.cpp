@@ -4,7 +4,6 @@ void Enemy::update(float dt, const sf::Vector2f& playerPos)
 {
 	
 	sf::Vector2f toPlayer = playerPos - sprite.getPosition();
-	//pythagorean theorem
     float len = std::sqrt(toPlayer.x*toPlayer.x + toPlayer.y*toPlayer.y);
      
 	if (len > 0)

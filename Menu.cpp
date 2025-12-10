@@ -46,6 +46,11 @@ void Menu::menu()
     startText.setOrigin({sb.position.x + sb.size.x/2.f, sb.position.y + sb.size.y/2.f});
     startText.setPosition({400, 350});
 
+	sf::Text courseDesc(menuFont, "Paul Aguiar \n CS003A \n CRN:79901 \n FALL2025", 20);
+	sf::FloatRect cd = courseDesc.getLocalBounds();
+	courseDesc.setOrigin({cd.position.x + cd.size.x/2.f, cd.position.y + cd.size.y/2.f});
+	courseDesc.setPosition({600,550});
+
     while (window.isOpen()&& !sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
     {
         while (auto event = window.pollEvent())
@@ -75,6 +80,7 @@ void Menu::menu()
         window.draw(title);
         window.draw(startBtn);
         window.draw(startText);
+		window.draw(courseDesc);
         window.display();
     }
 }
